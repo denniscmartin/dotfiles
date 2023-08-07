@@ -106,4 +106,30 @@
 	    (setq visual-fill-column-width 90)
 	    (display-line-numbers-mode 0)))
 
+;; define custom templates
+(require 'tempo)
+(setq tempo-interactive t)
+
+(tempo-define-template
+ "hugo-post"
+ '("#+HUGO_BASE_DIR: ../.." > n>
+   "#+HUGO_SECTION: ./posts" > n>
+   "#+HUGO_TAGS: " (p "HUGO_TAGS: ") > n>
+   "#+HUGO_CATEGORIES: " (p "HUGO_CATEGORIES: ") > n>
+   "#+HUGO_AUTHOR: Dennis Concepción Martín" > n>
+   > n ;
+   "#+TITLE: " (p "TITLE: ") > n>
+   "#+DESCRIPTION: " (p "DESCRIPTION: ") > n>
+   "#+DATE: " (p "DATE yyyy-mm-dd: ") > n>
+   > n ;
+   "" (p "Subtitle: ") > n>
+   > n ;
+   "#+BEGIN_EXPORT html" > n>
+   "<!--more-->" > n>
+   "#+END_EXPORT" > n>
+   > n> n> n ;
+   "#+BEGIN_SRC sh :results raw :exports results" > n>
+   "echo \"Last update: $(date -u)\"" > n>
+   "#+END_SRC" > n))
+
 
