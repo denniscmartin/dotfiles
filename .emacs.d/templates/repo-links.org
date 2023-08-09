@@ -1,0 +1,5 @@
+- Docs: [[https://denniscm.com/projects/%^{repo-name}]]
+- Main repo on SourceHut: [[https://git.sr.ht/~denniscmartin/%\1]]
+  - Mirrors:
+    - Github: [[https://github.com/denniscmartin/%\1]]
+    - Gitlab: [[https://gitlab.com/denniscmartin/%\1]]
