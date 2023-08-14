@@ -65,7 +65,12 @@
 ;; END: THIRD-PARTY PACKAGES
 
 ;; START: THEME
-(load-theme 'adwaita t)
+
+;; Light mode
+(load-theme 'modus-operandi)
+
+;; Dark mode
+;;(load-theme 'modus-vivendi)
 ;; END: THEME
 
 ;; START: INTERNAL CONFIG
@@ -141,6 +146,7 @@
 
 (require 'ox-publish)
 
+(setq org-html-validation-link nil)
 (setq org-publish-project-alist
       '(
 	("denniscm.com"
@@ -218,4 +224,3 @@
 	(error "Project file '%s' already exists" project-file-path)
       project-file-path)))
 ;; END: CUSTOM TEMPLATES
-

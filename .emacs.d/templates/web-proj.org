@@ -3,6 +3,7 @@
 #+author: Dennis Concepción Martín
 #+date: %^{date}
 #+html_head: <link rel="stylesheet" type="text/css" href="../style.css" />
+#+options: toc:nil
 
 #+attr_html: :class menu
 | [[file:../index.org][Home]] | [[file:../blog/index.org][blog]] | [[file:../logs/index.org][logs]] | [[file:../proj/index.org][proj]] | [[file:../knwl/index.org][knwl]] |
