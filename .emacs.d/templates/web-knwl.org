@@ -1,5 +1,4 @@
 #+title: %^{title}
-#+description: %^{description}
 #+author: Dennis Concepción Martín
 #+date: %^{date}
 #+html_head: <link rel="stylesheet" type="text/css" href="../style.css" />
@@ -9,7 +8,6 @@
 
 * %\1
 
-%\2
-
 %i%?
+
 

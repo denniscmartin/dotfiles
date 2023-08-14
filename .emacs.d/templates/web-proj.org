@@ -1,0 +1,46 @@
+#+title: %^{title}
+#+description: %^{description}
+#+author: Dennis Concepción Martín
+#+date: %^{date}
+#+html_head: <link rel="stylesheet" type="text/css" href="../style.css" />
+
+#+attr_html: :class menu
+| [[file:../index.org][Home]] | [[file:../blog/index.org][blog]] | [[file:../logs/index.org][logs]] | [[file:../proj/index.org][proj]] | [[file:../knwl/index.org][knwl]] |
+
+* README
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/source/%^{repo-name}/README
+:EXPORT_OPTIONS: toc:nil
+:END:
+
+** %\4
+
+%\2.
+
+- Docs: [[https://denniscm.com/proj/%\4.html]]
+- Main repo on SourceHut: [[https://git.sr.ht/~denniscmartin/%\4]]
+  - Mirrors:
+    - Github: [[https://github.com/denniscmartin/%\4]]
+    - Gitlab: [[https://gitlab.com/denniscmartin/%\4]]
+
+
+* DOCS
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/source/%\4/DOCS
+:END:
+
+%i%?
+
+* LICENSE
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/source/%\4/LICENSE
+:EXPORT_OPTIONS: toc:nil
+:END:
+
+
+
+* CHANGELOG
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/source/%\4/CHANGELOG
+:END:
+

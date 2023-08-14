@@ -35,17 +35,6 @@
 (use-package visual-fill-column
   :ensure t)
 
-;; Stuff for haskell
-(use-package haskell-mode
-  :ensure t
-  :config (exec-path-from-shell-initialize))
-
-;; Export org files to hugo markdown
-(use-package ox-hugo
-  :ensure t
-  :pin melpa
-  :after ox)
-
 ;; Git
 (use-package magit
   :ensure t)
@@ -58,6 +47,21 @@
 
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
+
+;; Syntax highlighting for html export
+(use-package htmlize
+  :ensure t)
+
+;; Languages
+(use-package haskell-mode
+  :ensure t
+  :config (exec-path-from-shell-initialize))
+
+(use-package swift-mode
+  :ensure t)
+
+(use-package json-mode
+  :ensure t)
 ;; END: THIRD-PARTY PACKAGES
 
 ;; START: THEME
@@ -92,6 +96,9 @@
 ;; Set timezone to UTC
 (setenv "TZ" "UTC0")
 
+;; Set export methods
+(setq org-export-backends '(iCalendar ascii html md otc))
+
 ;; Enable windmove (easy way to switch windows)
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
@@ -105,14 +112,23 @@
 ;; Active Babel languages
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((shell . t)))
+ '((shell . t)
+   (python . t)))
 
-;; Enable soft wrapping, set wrapping width, disable row numbers
+;; Automatically evaluate code blocks without asking
+(setq org-confirm-babel-evaluate nil)
+
 (add-hook 'org-mode-hook
 	  (lambda ()
+
+	    ;; Enable soft wrapping
 	    (visual-line-mode 1)
 	    (visual-fill-column-mode 1)
+
+	    ;; Set wrapping width
 	    (setq visual-fill-column-width 90)
+
+	    ;; Disable row numbers
 	    (display-line-numbers-mode 0)
 
 	    ;; Add a time-stamp evy time a file is saved
@@ -122,6 +138,31 @@
 	    ;; Change default time stamp format
 	    (setq time-stamp-pattern
 		  "-10/Last update:[ \t]+\\\\?[\"~]+%:y-%02m-%02d %02H:%02M:%02S %#Z\\\\?[\"~]")))
+
+(require 'ox-publish)
+
+(setq org-publish-project-alist
+      '(
+	("denniscm.com"
+	 :recursive t
+	 :base-directory "~/source/denniscm.com/content"
+	 :publishing-directory "~/source/denniscm.com/public"
+	 :publishing-function org-html-publish-to-html)))
+
+(defun denniscm-publish-static ()
+  (interactive)
+  (shell-command "cp -r ~/source/denniscm.com/static ~/source/denniscm.com/public")
+  (shell-command "cp ~/source/denniscm.com/src/style.css ~/source/denniscm.com/public"))
+
+(defun denniscm-deploy ()
+  (interactive)
+  (if (y-or-n-p "Do you added `static` and `style.css` to public?: ")
+      (progn
+        (shell-command
+         "rsync -av --delete ~/source/denniscm.com/public/ \
+          dennis@64.226.124.37:/var/www/denniscm.com/html")
+        (message "Deployment completed."))
+    (message "Deployment cancelled.")))
 ;; END: ORG MODE 
 
 ;; START: CUSTOM TEMPLATES
@@ -131,27 +172,27 @@
 	 (file "~/.emacs.d/templates/repo-links.org")
 	 :empty-lines 1)
 	("w" "Web templates")
-	("wb" "Create new blog entry" plain (file (lambda () (w-blog-filename-create)))
+	("wb" "Create new blog" plain (file (lambda () (w-blog-filename-create)))
 	 (file "~/.emacs.d/templates/web-blog.org"))
-	("wd" "Create new diary entry" plain (file (lambda () (w-diary-filename-create)))
-	 (file "~/.emacs.d/templates/web-diary.org"))
-	("wn" "Create new note" plain (file (lambda () (w-note-filename-create)))
-	 (file "~/.emacs.d/templates/web-note.org"))
-	("wp" "Create new project" plain (file (lambda () (w-project-filename-create)))
-	 (file "~/.emacs.d/templates/web-project.org"))))
+	("wl" "Create new log" plain (file (lambda () (w-log-filename-create)))
+	 (file "~/.emacs.d/templates/web-log.org"))
+	("wk" "Create new knowledge" plain (file (lambda () (w-knwl-filename-create)))
+	 (file "~/.emacs.d/templates/web-knwl.org"))
+	("wp" "Create new project" plain (file (lambda () (w-proj-filename-create)))
+	 (file "~/.emacs.d/templates/web-proj.org"))))
 
 (defun w-blog-filename-create ()
-  (let* ((base-directory "~/org/web/blog/")
+  (let* ((base-directory "~/source/denniscm.com/content/blog/")
 	 (date-timestamp (format-time-string "%Y-%m-%d"))
-         (blog-file-name (read-string "Blog name: "))
+         (blog-file-name (read-string "blog-filename: "))
 	 (blog-file-path (expand-file-name
 			  (format "%s-%s.org" date-timestamp blog-file-name) base-directory)))
     (if (file-exists-p blog-file-path)
         (error "Blog file '%s' already exists" blog-file-path)
       blog-file-path)))
 
-(defun w-diary-filename-create ()
-  (let* ((base-directory "~/org/web/diary/")
+(defun w-log-filename-create ()
+  (let* ((base-directory "~/source/denniscm.com/content/logs/")
 	 (myuuid (substring (shell-command-to-string "uuidgen | tr -d - | cut -c 1-8") 0 -1))
 	 (diary-file-path (expand-file-name
 			  (format "%s.org" myuuid) base-directory)))
@@ -159,21 +200,22 @@
         (error "Diary file '%s' already exists" diary-file-path)
       diary-file-path)))
 
-(defun w-note-filename-create ()
-  (let* ((base-directory "~/org/web/notes/")
-	 (note-file-name (read-string "Note name: "))
+(defun w-knwl-filename-create ()
+  (let* ((base-directory "~/source/denniscm.com/content/knwl/")
+	 (note-file-name (read-string "note-filename: "))
 	 (note-file-path (expand-file-name
 			  (format "%s.org" note-file-name) base-directory)))
     (if (file-exists-p note-file-path)
 	(error "Note file '%s' already exists" note-file-path)
       note-file-path)))
 
-(defun w-project-filename-create ()
-  (let* ((base-directory "~/org/web/proj/")
-	 (project-file-name (read-string "Project name: "))
+(defun w-proj-filename-create ()
+  (let* ((base-directory "~/source/denniscm.com/content/proj/")
+	 (project-file-name (read-string "repo-name: "))
 	 (project-file-path (expand-file-name
 			  (format "%s.org" project-file-name) base-directory)))
     (if (file-exists-p project-file-path)
 	(error "Project file '%s' already exists" project-file-path)
       project-file-path)))
 ;; END: CUSTOM TEMPLATES
+
