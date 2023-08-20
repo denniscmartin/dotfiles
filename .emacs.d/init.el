@@ -62,6 +62,12 @@
 
 (use-package json-mode
   :ensure t)
+
+(use-package yaml-mode
+  :ensure t)
+
+(use-package nginx-mode
+  :ensure t)
 ;; END: THIRD-PARTY PACKAGES
 
 ;; START: THEME
@@ -224,3 +230,4 @@
 	(error "Project file '%s' already exists" project-file-path)
       project-file-path)))
 ;; END: CUSTOM TEMPLATES
+
