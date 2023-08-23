@@ -79,6 +79,13 @@
 ;;(load-theme 'modus-vivendi)
 ;; END: THEME
 
+;; Font
+(set-face-attribute 'default t :font "IBM Plex Mono")
+
+;; Change font size
+(set-face-attribute 'default nil :height 130)
+;; END: THEME
+
 ;; START: INTERNAL CONFIG
 ;; Set global backups directory
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups"))
@@ -94,9 +101,6 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
-
-;; Change font size
-(set-face-attribute 'default nil :height 130)
 
 ;; Show row numbers
 (global-display-line-numbers-mode t)
@@ -160,7 +164,9 @@
 	 :base-directory "~/source/denniscm.com/content"
 	 :publishing-directory "~/source/denniscm.com/public"
 	 :publishing-function org-html-publish-to-html)))
+;; END: ORG MODE
 
+;; START: CUSTOM COMMANDS
 (defun denniscm-publish-static ()
   (interactive)
   (shell-command "cp -r ~/source/denniscm.com/static ~/source/denniscm.com/public")
@@ -168,14 +174,15 @@
 
 (defun denniscm-deploy ()
   (interactive)
-  (if (y-or-n-p "Do you added `static` and `style.css` to public?: ")
-      (progn
-        (shell-command
-         "rsync -av --delete ~/source/denniscm.com/public/ \
-          dennis@64.226.124.37:/var/www/denniscm.com/html")
-        (message "Deployment completed."))
-    (message "Deployment cancelled.")))
-;; END: ORG MODE 
+  (denniscm-publish-static)
+  (shell-command
+   "rsync -av --delete ~/source/denniscm.com/public/ dennis@64.226.124.37:/var/www/denniscm.com/html")
+  (if (y-or-n-p "Create commit and push it?: ")
+      (shell-command
+       (format "cd ~/source/denniscm.com && git add . && git commit -m \"Deploy: %s\" && git push"
+	       (format-time-string "%Y-%m-%d %H:%M:%S"))))
+  (message "Deployment completed."))
+;; END:CUSTOM COMMANDS
 
 ;; START: CUSTOM TEMPLATES
 (setq org-capture-templates
@@ -230,4 +237,3 @@
 	(error "Project file '%s' already exists" project-file-path)
       project-file-path)))
 ;; END: CUSTOM TEMPLATES
-
