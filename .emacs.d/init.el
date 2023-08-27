@@ -48,8 +48,12 @@
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
 
-;; Syntax highlighting for html export
+;; Syntax highlighting for org mode html export
 (use-package htmlize
+  :ensure t)
+
+;; Embedded
+(use-package platformio-mode
   :ensure t)
 
 ;; Languages
@@ -73,17 +77,16 @@
 ;; START: THEME
 
 ;; Light mode
-(load-theme 'modus-operandi)
+;;(load-theme 'modus-operandi)
 
 ;; Dark mode
-;;(load-theme 'modus-vivendi)
+(load-theme 'modus-vivendi)
 ;; END: THEME
 
 ;; Font
-(set-face-attribute 'default t :font "IBM Plex Mono")
-
-;; Change font size
-(set-face-attribute 'default nil :height 130)
+(set-face-attribute 'default nil
+		    :font "IBM Plex Mono"
+		    :height 130)
 ;; END: THEME
 
 ;; START: INTERNAL CONFIG
@@ -164,6 +167,8 @@
 	 :base-directory "~/source/denniscm.com/content"
 	 :publishing-directory "~/source/denniscm.com/public"
 	 :publishing-function org-html-publish-to-html)))
+
+(setq org-html-postamble "Last update: %C")
 ;; END: ORG MODE
 
 ;; START: CUSTOM COMMANDS
@@ -187,14 +192,9 @@
 ;; START: CUSTOM TEMPLATES
 (setq org-capture-templates
       '(
-	("r" "Add repository links" plain (file buffer-name)
-	 (file "~/.emacs.d/templates/repo-links.org")
-	 :empty-lines 1)
 	("w" "Web templates")
 	("wb" "Create new blog" plain (file (lambda () (w-blog-filename-create)))
 	 (file "~/.emacs.d/templates/web-blog.org"))
-	("wl" "Create new log" plain (file (lambda () (w-log-filename-create)))
-	 (file "~/.emacs.d/templates/web-log.org"))
 	("wk" "Create new knowledge" plain (file (lambda () (w-knwl-filename-create)))
 	 (file "~/.emacs.d/templates/web-knwl.org"))
 	("wp" "Create new project" plain (file (lambda () (w-proj-filename-create)))
@@ -209,15 +209,6 @@
     (if (file-exists-p blog-file-path)
         (error "Blog file '%s' already exists" blog-file-path)
       blog-file-path)))
-
-(defun w-log-filename-create ()
-  (let* ((base-directory "~/source/denniscm.com/content/logs/")
-	 (myuuid (substring (shell-command-to-string "uuidgen | tr -d - | cut -c 1-8") 0 -1))
-	 (diary-file-path (expand-file-name
-			  (format "%s.org" myuuid) base-directory)))
-    (if (file-exists-p diary-file-path)
-        (error "Diary file '%s' already exists" diary-file-path)
-      diary-file-path)))
 
 (defun w-knwl-filename-create ()
   (let* ((base-directory "~/source/denniscm.com/content/knwl/")
@@ -237,3 +228,4 @@
 	(error "Project file '%s' already exists" project-file-path)
       project-file-path)))
 ;; END: CUSTOM TEMPLATES
+

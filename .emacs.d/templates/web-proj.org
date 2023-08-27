@@ -6,7 +6,7 @@
 #+options: toc:nil
 
 #+attr_html: :class menu
-| [[file:../index.org][Home]] | [[file:../blog/index.org][blog]] | [[file:../logs/index.org][logs]] | [[file:../proj/index.org][proj]] | [[file:../knwl/index.org][knwl]] |
+| [[file:../index.org][Home]] | [[file:../blog/index.org][blog]] | [[file:../proj/index.org][proj]]  | [[file:../knwl/index.org][knwl]] |
 
 * README
 :PROPERTIES:
@@ -18,11 +18,10 @@
 
 %\2.
 
-- Docs: [[https://denniscm.com/proj/%\4.html]]
-- Main repo on SourceHut: [[https://git.sr.ht/~denniscmartin/%\4]]
-  - Mirrors:
-    - Github: [[https://github.com/denniscmartin/%\4]]
-    - Gitlab: [[https://gitlab.com/denniscmartin/%\4]]
+- Docs: [[https://denniscm.com/proj/%\4.html][denniscm.com/proj/%\4.html]]
+- Main repo on SourceHut: [[https://git.sr.ht/~denniscmartin/%\4][git.sr.ht/~denniscmartin/%\4]]
+- Github: [[https://github.com/denniscmartin/%\4][github.com/denniscmartin/%\4]]
+- Gitlab: [[https://gitlab.com/denniscmartin/%\4][gitlab.com/denniscmartin/%\4]]
 
 
 * DOCS
