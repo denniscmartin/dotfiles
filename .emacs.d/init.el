@@ -77,10 +77,10 @@
 ;; START: THEME
 
 ;; Light mode
-;;(load-theme 'modus-operandi)
+(load-theme 'modus-operandi)
 
 ;; Dark mode
-(load-theme 'modus-vivendi)
+;;(load-theme 'modus-vivendi)
 ;; END: THEME
 
 ;; Font

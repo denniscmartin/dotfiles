@@ -1,6 +1,7 @@
 #+title: %^{title}
 #+author: Dennis Concepción Martín
 #+date: %^{date}
+#+options: toc:nil
 #+html_head: <link rel="stylesheet" type="text/css" href="../style.css" />
 
 #+attr_html: :class menu

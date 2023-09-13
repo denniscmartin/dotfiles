@@ -1,0 +1,15 @@
+#+title: Factura #^{number}
+#+date: %^{date}
+#+author: ENDBYTE
+#+options: toc:nil
+
+#+begin_center
+Endbyte Desarrollo de Software, S.L.U, B44952745, Avda. de Madrid 11, portal 5, piso 6B, Santa Cruz de Tenerife, 38007, Islas Canarias, España, +34 639 465 931.
+
+Facturar a:
+%^{client}
+
+| Descripción | IGIC | Importe |
+|-------------+------+---------|
+|%i%?         |      |         |
+#+end_center

@@ -8,6 +8,10 @@
 #+attr_html: :class menu
 | [[file:../index.org][Home]] | [[file:../blog/index.org][blog]] | [[file:../proj/index.org][proj]]  | [[file:../knwl/index.org][knwl]] |
 
+#+TOC: headlines 1
+
+\\
+
 * README
 :PROPERTIES:
 :EXPORT_FILE_NAME: ~/source/%^{repo-name}/README
@@ -29,6 +33,10 @@
 :EXPORT_FILE_NAME: ~/source/%\4/DOCS
 :END:
 
+#+TOC: headlines 3 local
+
+\\
+
 %i%?
 
 * LICENSE
@@ -43,4 +51,8 @@
 :PROPERTIES:
 :EXPORT_FILE_NAME: ~/source/%\4/CHANGELOG
 :END:
+
+#+TOC: headlines 2 local
+
+\\
 
